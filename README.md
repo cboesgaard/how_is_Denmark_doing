@@ -9,7 +9,10 @@ Data is aligned to start at the date of firste reported COVID-19 related death i
 
 Raw aligned data for figures: https://github.com/cboesgaard/how_is_Denmark_doing/blob/master/how_is_Denmark_doing.csv
 
-Data is sourced from: https://github.com/CSSEGISandData/COVID-19
+Danish data is sourced from: https://www.sst.dk/coronadata
+
+Other data is sourced from: https://github.com/CSSEGISandData/COVID-19
+
 
 
 
