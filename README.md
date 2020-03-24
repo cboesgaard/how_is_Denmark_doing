@@ -1,6 +1,6 @@
 # How is Denmark doing?
 
-Data is aligned to start at the date of firste reported COVID-19 related death in the different countries. For Denmark day=0 was 2020-03-14.
+Data is aligned to start at the date of firste reported COVID-19 related death in the different countries. For Denmark day=0 was 2020-03-11 (the counting procedure has been changed).
 
 ![Daily death counts](how_is_Denmark_doing_daily.png)
 
