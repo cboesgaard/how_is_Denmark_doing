@@ -12,6 +12,10 @@ Data is aligned to start at the date of firste reported COVID-19 related death i
 
 ![Cumulative death counts](how_is_Denmark_doing_cumulative.png)
 
+## Death compared per one million population
+
+![Cumulative death counts](how_is_Denmark_doing_cumulative_pop.png)
+
 ## Data
 
 Raw aligned data for figures: https://github.com/cboesgaard/how_is_Denmark_doing/blob/master/how_is_Denmark_doing.csv
