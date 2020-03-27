@@ -18,7 +18,9 @@ Data is aligned to start at the date of firste reported COVID-19 related death i
 
 ## Data
 
-Danish data is sourced from: https://www.sst.dk/coronadata
+Danish data is from: https://www.sst.dk/coronadata
+
+US data is from: https://www.worldometers.info/coronavirus/country/us/
 
 Other data is sourced from: https://github.com/CSSEGISandData/COVID-19
 
