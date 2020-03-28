@@ -22,10 +22,11 @@ Danish data is from: https://www.sst.dk/coronadata
 
 US data is from: https://www.worldometers.info/coronavirus/country/us/
 
-Other data is sourced from: https://github.com/CSSEGISandData/COVID-19
+Other covid-19 data is sourced from: https://github.com/CSSEGISandData/COVID-19
 
 Raw data for figures: https://github.com/cboesgaard/how_is_Denmark_doing/blob/master/data/
 
+Population data is from [data.un.org](https://data.un.org/Data.aspx?d=PopDiv&f=variableID%3a12%3btimeID%3a83%2c84%3bvarID%3a2&c=2,4,6,7&s=_crEngNameOrderBy:asc,_timeEngNameOrderBy:desc,_varEngNameOrderBy:asc&v=1#PopDiv)
 
 
 
