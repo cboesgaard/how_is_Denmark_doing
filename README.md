@@ -20,7 +20,9 @@ Data is aligned to start at the date of firste reported COVID-19 related death i
 
 Danish data is from: https://www.sst.dk/coronadata
 
-US data is from: https://www.worldometers.info/coronavirus/country/us/
+New York data is from: https://github.com/nytimes/covid-19-data [U. S. tracking page](https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html)
+
+Other US data is from: https://www.worldometers.info/coronavirus/country/us/
 
 Other covid-19 data is sourced from: https://github.com/CSSEGISandData/COVID-19
 
