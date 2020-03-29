@@ -18,17 +18,17 @@ Data is aligned to start at the date of firste reported COVID-19 related death i
 
 ## Data
 
-Danish data is from: https://www.sst.dk/coronadata
+Danish data is from Sundhedsstyrelsen: https://www.sst.dk/coronadata
 
-New York data is from: https://github.com/nytimes/covid-19-data [(U. S. tracking page)](https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html)
+New York data is from The New York Times: https://github.com/nytimes/covid-19-data [(U. S. tracking page)](https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html)
 
-Other US data is from: https://www.worldometers.info/coronavirus/country/us/
+Other US data is from Worldometer: https://www.worldometers.info/coronavirus/country/us/
 
-Other covid-19 data is sourced from: https://github.com/CSSEGISandData/COVID-19
+Other covid-19 data is from Johns Hopkins University: https://github.com/CSSEGISandData/COVID-19
 
-Raw data for figures: https://github.com/cboesgaard/how_is_Denmark_doing/blob/master/data/
+Raw data for figures is available here: https://github.com/cboesgaard/how_is_Denmark_doing/blob/master/data/
 
-Population data is from [data.un.org](https://data.un.org/Data.aspx?d=PopDiv&f=variableID%3a12%3btimeID%3a83%2c84%3bvarID%3a2&c=2,4,6,7&s=_crEngNameOrderBy:asc,_timeEngNameOrderBy:desc,_varEngNameOrderBy:asc&v=1#PopDiv)
+Population data is from UNdata: [data.un.org](https://data.un.org/Data.aspx?d=PopDiv&f=variableID%3a12%3btimeID%3a83%2c84%3bvarID%3a2&c=2,4,6,7&s=_crEngNameOrderBy:asc,_timeEngNameOrderBy:desc,_varEngNameOrderBy:asc&v=1#PopDiv)
 
 
 
