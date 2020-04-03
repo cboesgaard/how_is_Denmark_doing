@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+}
+</style>
+<body>
+
+<!-- load the d3.js library -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+    // set the dimensions and margins of the graph
+    var margin = {top: 20, right: 20, bottom: 30, left: 50},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+    // parse the date / time
+    var parseTime = d3.timeParse("%Y");
+
+    // set the ranges
+    var x = d3.scaleLinear().range([0, width]);
+    var y = d3.scaleLinear().range([height, 0]);
+
+    // define the line
+
+    var valueline = d3.line()
+        .x(function(d) { return x(d.date); })
+        .y(function(d) { return y(d.value); });
+
+    // append the svg obgect to the body of the page
+    // appends a 'group' element to 'svg'
+    // moves the 'group' element to the top left margin
+    var svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+    // Set extends of axis. both start in 0
+    function set_domain(maxX, maxY) {
+        // Scale the range of the data
+        //         x.domain(d3.extent(data, function(d) { return d.date; }));
+        // y.domain([0, d3.max(data, function(d) { d.value })]);
+        console.log("Set domain to " + maxX + ", " + maxY);
+        x.domain([0, maxX]);
+        y.domain([0, maxY]);
+    }
+
+    // Draw a single country
+    function draw_country(country_data) {
+
+        // Data holds the country name in data.name, data
+        var country_name = country_data.name;
+        console.log("Rendering data for " + country_name);
+        var data = country_data.data;
+
+
+        // Add the valueline path.
+        console.log("Adding valueline path");
+        svg.append("path")
+            .data([data])
+            .attr("class", "line")
+            .attr("d", valueline);
+        // Add the X Axis
+        console.log("Adding the x axis");
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        // Add the Y Axis
+        console.log("Adding the y axis");
+        svg.append("g")
+            .call(d3.axisLeft(y));
+    }
+    // Get the data
+    d3.json("../data/how_is_Denmark_doing_cumulative_pop.json", function(error, data) {
+        if (error) throw error;
+
+        // Clean data. Remove any data that is NaN or similar
+        data.forEach(function (c) {
+            console.log("Cleaning data for " + c.name);
+            c.data.filter(function (e) {
+                e.value != null;
+            })
+        });
+
+
+        // Find min and max in data
+        // Note, date are numbers, starting in 0 for this graph.
+        var maxDate = 0;
+        var maxValue = 0;
+        data.forEach(function (c) {
+            console.log("Find max values for " + c.name);
+            c.data.forEach(function (e) {
+                maxDate = Math.max(maxDate, e.date);
+                maxValue = Math.max(maxValue, e.value);
+            })
+        });
+        set_domain(maxDate, maxValue);
+
+        // trigger render of the first country
+        draw_country(data[0]);
+        draw_country(data[1]);
+    });
+
+</script>
+</body>
