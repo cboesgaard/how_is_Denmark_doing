@@ -67,6 +67,54 @@
         y.domain([0, maxY]);
     }
 
+    function set_domain_from_data(data) {
+        console.log("Setting domain from data");
+        var maxDate = 0;
+        var maxValue = 0;
+        data.forEach(function (c) {
+            console.log("Find max values for " + c.name);
+            if (!c.active) {
+                console.log("Skipping inactive country " + c.name);
+            } else {
+                c.data.forEach(function (e) {
+                    maxDate = Math.max(maxDate, e.date);
+                    maxValue = Math.max(maxValue, e.value);
+                })
+            }
+        });
+        set_domain(maxDate, maxValue);
+    }
+
+    function rescale(data) {
+        console.log("rescale");
+        set_domain_from_data(data);
+
+        // Control the duration of the transition
+        var duration = 500;
+
+        // transition the domain, that is, the axis's in this case.
+        svg.selectAll("g.yaxis")
+            .transition().duration(duration)
+            .call(d3.axisLeft(y));
+
+        svg.selectAll("g.xaxis")
+            .transition().duration(duration)
+            .call(d3.axisBottom(x));
+
+        // Update all lines
+        data.forEach(function(c) {
+            // Hide or show the elements based on the ID
+            var newOpacity = c.active ? 1 : 0;
+            d3.select("#tag"+c.key.replace(/\s+/g, ''))
+                .transition().duration(duration)
+                .attr("d", valueline(c.values))
+                .style("opacity", newOpacity);
+        });
+
+
+
+    }
+
     // gridlines in x axis function
     // Change these to get different resolution
     function make_x_gridlines() {
@@ -99,18 +147,7 @@
             c.active = true;
         });
 
-        // Find min and max in data and use it to set the extent of the chart.
-        // Note, date are numbers, starting in 0 for this graph.
-        var maxDate = 0;
-        var maxValue = 0;
-        data.forEach(function (c) {
-            console.log("Find max values for " + c.name);
-            c.data.forEach(function (e) {
-                maxDate = Math.max(maxDate, e.date);
-                maxValue = Math.max(maxValue, e.value);
-            })
-        });
-        set_domain(maxDate, maxValue);
+        set_domain_from_data(data);
 
         // Add the elements to the svg graph
         // set the colour scale - this allow for 10 colors / lines
@@ -151,6 +188,7 @@
                     // Update whether or not the elements are active
                     d.active = active;
                     console.log("Status of active for " + d.key + " is " + d.active);
+                    rescale(data);
                 })
                 .text(d.key);
         });
@@ -161,6 +199,7 @@
         console.log("Adding the x axis");
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
+            .attr("class", "xaxis")
             .call(d3.axisBottom(x));
 
         // label and sublabel
@@ -183,6 +222,7 @@
         // Add the Y Axis
         console.log("Adding the y axis");
         svg.append("g")
+            .attr("class", "yaxis")
             .call(d3.axisLeft(y));
 
         // Y axis label
