@@ -85,6 +85,8 @@
         set_domain(maxDate, maxValue);
     }
 
+    // Called whenever the user clicks a label.
+    // Rescales the domain (axis) and repaints the lines.
     function rescale(data) {
         console.log("rescale");
         set_domain_from_data(data);
