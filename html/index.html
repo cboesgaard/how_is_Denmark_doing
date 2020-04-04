@@ -9,12 +9,12 @@
 }
 
 /* This defines the grid lines style */
-.grid line {
+.tick line {
     stroke: lightgrey;
-    stroke-opacity: 0.7;
+    stroke-opacity: 0.4;
     shape-rendering: crispEdges;
 }
-.grid path {
+.tick path {
     stroke-width: 0;
 }
 
@@ -99,6 +99,17 @@
         ;//.tickFormat(d3.format(".0s"));
 
 
+/*     var yAxisGrid = yAxis.ticks(5)
+        .tickSize(width, 0)
+        .tickFormat("")
+        ;//.orient("right");
+
+    var xAxisGrid = xAxis.ticks(5)
+        .tickSize(-height, 0)
+        .tickFormat("")
+         ;//.orient("top");
+*/
+
     // define the line - a function that returns x and y from a single data point.
     var valueline = d3.line()
         .x(function(d) { return x(d.date); })
@@ -157,6 +168,10 @@
         // Control the duration of the transition
         var duration = 500;
 
+        // Set up a grid - styled with .tick line
+        xAxis.ticks(7).tickSize(-height, 0);//.tickFormat("");
+        yAxis.ticks(7).tickSize(-width, 0);//.tickFormat("");
+
         // transition the domain, that is, the axis's in this case.
         yAxis.scale(y); //.tickFormat(d3.format(".0s"));;
         if (logScale) {
@@ -173,6 +188,8 @@
         svg.selectAll("g.xaxis")
             .transition().duration(duration)
             .call(xAxis);
+
+
 
         // Update all lines
         data.forEach(function (c) {
@@ -306,25 +323,17 @@
             // .style("text-decoration", "underline")
             .text("Cumulative deaths per one million population [TODO: DATE]");
 
-            /*
         // Add the gridlines
         // add the X gridlines
-        svg.append("g")
+/*        svg.append("g")
             .attr("class", "grid")
             .attr("transform", "translate(0," + height + ")")
-            .call(make_x_gridlines()
-            .tickSize(-height)
-            .tickFormat("")
-        );
+            .call(xAxisGrid); */
         // add the Y gridlines
-        svg.append("g")
+/*        svg.append("g")
             .attr("class", "grid")
-            .call(make_y_gridlines()
-            .tickSize(-width)
-            .tickFormat("")
-        );
+            .call(yAxisGrid);
 */
-
 
         // Interactions with mouse
         var mouseG = svg.append("g")
@@ -452,6 +461,9 @@
             .attr('class', 'button')
             .call(button);
 
+
+        // When everything is added, "rescale", to make sure we know how we work initially
+        rescale(data);
 
     });
 
