@@ -15,7 +15,7 @@
 <script>
 
     // set the dimensions and margins of the graph
-    var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    var margin = {top: 20, right: 20, bottom: 70, left: 70},
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -96,17 +96,44 @@
         });
 
 
-        // Set the X and Y axes.
+        // Set and label the X and Y axes.
         // Add the X Axis
         console.log("Adding the x axis");
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x));
 
+        // label and sublabel
+        svg.append("text")
+            .attr("x", width / 2 )
+            .attr("y", height + margin.top + 20)
+            .style("text-anchor", "middle")
+            .style("font", "12px sans-serif")
+            .text("Days since one million population reached");
+
+        // sublabel
+        svg.append("text")
+            .attr("x", width / 2 )
+            .attr("y", height + margin.top + 40)
+            .style("text-anchor", "middle")
+            .style("font", "12px sans-serif")
+            .text("cbo@dbc.dk");
+
+
         // Add the Y Axis
         console.log("Adding the y axis");
         svg.append("g")
             .call(d3.axisLeft(y));
+
+        // Y axis label
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left + 10)
+            .attr("x",0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .style("font", "12px sans-serif")
+            .text("Cumulative deaths per one million population");
 
     });
 
