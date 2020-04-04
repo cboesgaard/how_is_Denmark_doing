@@ -8,7 +8,7 @@
     stroke-width: 2px;
 }
 
-/* This adds the grid lines */
+/* This defines the grid lines style */
 .grid line {
     stroke: lightgrey;
     stroke-opacity: 0.7;
@@ -16,6 +16,14 @@
 }
 .grid path {
     stroke-width: 0;
+}
+
+/* This defines the style of the legend font */
+.legend {
+    font-size: 14px;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-anchor: middle;
 }
 
 </style>
@@ -26,7 +34,7 @@
 <script>
 
     // set the dimensions and margins of the graph
-    var margin = {top: 30, right: 20, bottom: 70, left: 70},
+    var margin = {top: 30, right: 20, bottom: 90, left: 70},
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -109,13 +117,28 @@
 
         // Loop through each country, and add the lines.
         console.log("Adding the lines");
-        data.forEach(function(d) {
+        // Calculate space for the legend
+        legendSpace = width/data.length; // spacing for legend
+        data.forEach(function(d,i) {
 
+            // This statement add the actual lines, based on the values.
             svg.append("path")
                 .attr("class", "line")
                 .style("stroke", function() { // Add the colours dynamically
                     return d.color = color(d.key); })
                 .attr("d", valueline(d.values));
+
+            // This statement add a legend text for the line
+            // This could be moved somewhere else, and be more "traditionel"
+            svg.append("text")
+                .attr("x", (legendSpace/2)+i*legendSpace) // spacing
+                .attr("y", height + (margin.bottom/2) - 8)
+                .attr("class", "legend")
+                // style the legend
+                .style("fill", function() { // dynamic colours
+                    return d.color = color(d.key); })
+                .text(d.key);
+
         });
 
 
@@ -184,7 +207,6 @@
             .tickSize(-width)
             .tickFormat("")
         );
-
 
     });
 
