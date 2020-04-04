@@ -179,14 +179,7 @@
                 // This section makes it interactive.
                 .on("click", function(){
                     // Determine if current line is visible
-                    var active = d.active ? false : true;
-                    var newOpacity = active ? 1 : 0;
-                    // Hide or show the elements based on the ID
-                    d3.select("#tag"+d.key.replace(/\s+/g, ''))
-                        .transition().duration(250)
-                        .style("opacity", newOpacity);
-                    // Update whether or not the elements are active
-                    d.active = active;
+                    d.active = d.active ? false : true;
                     console.log("Status of active for " + d.key + " is " + d.active);
                     rescale(data);
                 })
