@@ -19,23 +19,16 @@
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
-    // parse the date / time
-    var parseTime = d3.timeParse("%Y");
-
     // set the ranges
     var x = d3.scaleLinear().range([0, width]);
     var y = d3.scaleLinear().range([height, 0]);
 
-    // Room for 10 different colors.
-    var colorScale = d3.schemeCategory10;
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-    // define the line
+    // define the line - a function that returns x and y from a single data point.
     var valueline = d3.line()
         .x(function(d) { return x(d.date); })
         .y(function(d) { return y(d.value); });
 
-    // append the svg obgect to the body of the page
+    // append the svg object to the body of the page
     // appends a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
     var svg = d3.select("body").append("svg")
@@ -45,7 +38,7 @@
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-    // Set extends of axis. both start in 0
+    // function to set extends of axis. both start in 0
     function set_domain(maxX, maxY) {
         // Scale the range of the data
         //         x.domain(d3.extent(data, function(d) { return d.date; }));
@@ -55,27 +48,7 @@
         y.domain([0, maxY]);
     }
 
-    // Draw a single country
-    function draw_country(country_data) {
-
-        // Data holds the country name in data.name, data
-        var country_name = country_data.name;
-        console.log("Rendering data for " + country_name);
-        var data = country_data.data;
-
-
-        // Add the valueline path.
-        console.log("Adding valueline path");
-        svg.append("path")
-            .data([data])
-            .attr("class", "line")
-            .style("stroke", function() { return coutry_data.color = color(countr_data.name); })
-            .attr("d", valueline)
-            .attr("id", function(d) { return "graph-"+d.name; }); // Assign an id for each line.
-            //            .style("stroke", function(d) { return d.color; });
-    //.attr("stroke", function() { return 'red'; });
-    }
-    // Get the data
+    // Get the data and create the graph from it.
     d3.json("../data/how_is_Denmark_doing_cumulative_pop.json", function(error, data) {
         if (error) throw error;
 
@@ -92,8 +65,7 @@
         data.forEach(function (c) {
             c.key = c.name;
             c.values = c.data;
-        })
-
+        });
 
         // Find min and max in data and use it to set the extent of the chart.
         // Note, date are numbers, starting in 0 for this graph.
@@ -109,10 +81,10 @@
         set_domain(maxDate, maxValue);
 
         // Add the elements to the svg graph
-        // set the colour scale
+        // set the colour scale - this allow for 10 colors / lines
         var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-        // Loop through each symbol / key
+        // Loop through each country, and add the lines.
         console.log("Adding the lines");
         data.forEach(function(d) {
 
@@ -136,9 +108,6 @@
         svg.append("g")
             .call(d3.axisLeft(y));
 
-        // trigger render of the first country
-        // draw_country(data[0]);
-        // draw_country(data[1]);
     });
 
 </script>
