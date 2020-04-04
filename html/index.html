@@ -310,9 +310,9 @@
                 d3.select(".mouse-line")
                     .style("opacity", "0.8");
                 d3.selectAll(".mouse-per-line circle")
-                    .style("opacity", "1");
+                    .style("opacity", function(d) { return d.active ? 1 : 0; });
                 d3.selectAll(".mouse-per-line text")
-                    .style("opacity", "1");
+                    .style("opacity", function(d) { return d.active ? 1 : 0; });
             })
             .on('mousemove', function() { // mouse moving over canvas
                 var mouse = d3.mouse(this);
