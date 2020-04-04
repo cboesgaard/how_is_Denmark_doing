@@ -283,7 +283,8 @@
             .style("opacity", "0");
 
         mousePerLine.append("text")
-            .attr("transform", "translate(10,3)");
+            .attr("transform", "translate(10,3)")
+            .style("font", "12px sans-serif");
 
         mouseG.append("path") // this is the black vertical line to follow mouse
             .attr("class", "mouse-line")
