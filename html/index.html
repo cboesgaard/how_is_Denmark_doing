@@ -92,10 +92,11 @@
             })
         });
 
-        // TODO: Our data is almost already a "dataNest". Lets adapt to the nest format for the next lines
+        // Our data is almost already a "dataNest". Lets adapt to the nest format for the next lines, and set active
         data.forEach(function (c) {
             c.key = c.name;
             c.values = c.data;
+            c.active = true;
         });
 
         // Find min and max in data and use it to set the extent of the chart.
@@ -142,13 +143,14 @@
                 .on("click", function(){
                     // Determine if current line is visible
                     var active = d.active ? false : true;
-                    var newOpacity = active ? 0 : 1;
+                    var newOpacity = active ? 1 : 0;
                     // Hide or show the elements based on the ID
                     d3.select("#tag"+d.key.replace(/\s+/g, ''))
-                        .transition().duration(100)
+                        .transition().duration(250)
                         .style("opacity", newOpacity);
                     // Update whether or not the elements are active
                     d.active = active;
+                    console.log("Status of active for " + d.key + " is " + d.active);
                 })
                 .text(d.key);
         });
