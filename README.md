@@ -18,7 +18,7 @@ Data is aligned to start at the date of firste reported COVID-19 related death i
 
 ## Data
 
-Danish data is from Sundhedsstyrelsen: https://www.sst.dk/coronadata
+Danish data is from Statens Serum Institut (SSI): https://www.ssi.dk/aktuelt/sygdomsudbrud/coronavirus/covid-19-i-danmark-epidemiologisk-overvaagningsrapport
 
 New York data is from The New York Times: https://github.com/nytimes/covid-19-data [(U. S. tracking page)](https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html)
 
