@@ -7,6 +7,17 @@
     stroke: steelblue;
     stroke-width: 2px;
 }
+
+/* This adds the grid lines */
+.grid line {
+    stroke: lightgrey;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+}
+.grid path {
+    stroke-width: 0;
+}
+
 </style>
 <body>
 
@@ -46,6 +57,18 @@
         console.log("Set domain to " + maxX + ", " + maxY);
         x.domain([0, maxX]);
         y.domain([0, maxY]);
+    }
+
+    // gridlines in x axis function
+    // Change these to get different resolution
+    function make_x_gridlines() {
+        return d3.axisBottom(x)
+        .ticks(5)
+    }
+    // gridlines in y axis function
+    function make_y_gridlines() {
+        return d3.axisLeft(y)
+        .ticks(5)
     }
 
     // Get the data and create the graph from it.
@@ -144,6 +167,24 @@
             .style("font", "16px sans-serif")
             // .style("text-decoration", "underline")
             .text("Cumulative deaths per one million population [TODO: DATE]");
+
+        // Add the gridlines
+        // add the X gridlines
+        svg.append("g")
+            .attr("class", "grid")
+            .attr("transform", "translate(0," + height + ")")
+            .call(make_x_gridlines()
+            .tickSize(-height)
+            .tickFormat("")
+        );
+        // add the Y gridlines
+        svg.append("g")
+            .attr("class", "grid")
+            .call(make_y_gridlines()
+            .tickSize(-width)
+            .tickFormat("")
+        );
+
 
     });
 
