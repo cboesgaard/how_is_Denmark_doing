@@ -183,7 +183,7 @@
         data.forEach(function (c) {
             // Hide or show the elements based on the ID
             var newOpacity = c.active ? 1 : 0;
-            d3.select("#tag" + c.key.replace(/\s+/g, ''))
+            d3.select("#tag" + c.key.replace(/[\s,]+/g, ''))
                 .transition().duration(duration)
                 .attr("d", valueline(c.values))
                 .style("opacity", newOpacity);
@@ -227,7 +227,7 @@
                 .attr("class", "line")
                 .style("stroke", function() { // Add the colours dynamically
                     return d.color = color(d.key); })
-                .attr("id", 'tag'+d.key.replace(/\s+/g, ''))
+                .attr("id", 'tag'+d.key.replace(/[\s,]+/g, ''))
                 .attr("d", valueline(d.values));
 
             // This statement add a legend text for the line
@@ -434,10 +434,5 @@
     });
 
 </script>
-
-<div class="controls">
-    <input id="logCheckbox" type="checkbox" value="logscale"></input>
-    <label for="logscale">Log scale</label>
-</div>
 
 </body>
