@@ -95,20 +95,8 @@
   	    .scale(x);
 
     var yAxis = d3.axisLeft()
-        .scale(y)
-        ;//.tickFormat(d3.format(".0s"));
+        .scale(y);
 
-
-/*     var yAxisGrid = yAxis.ticks(5)
-        .tickSize(width, 0)
-        .tickFormat("")
-        ;//.orient("right");
-
-    var xAxisGrid = xAxis.ticks(5)
-        .tickSize(-height, 0)
-        .tickFormat("")
-         ;//.orient("top");
-*/
 
     // define the line - a function that returns x and y from a single data point.
     var valueline = d3.line()
@@ -200,16 +188,6 @@
                 .attr("d", valueline(c.values))
                 .style("opacity", newOpacity);
         });
-    }
-
-    // gridlines in x axis function
-    // Change these to get different resolution
-    function make_x_gridlines() {
-        return xAxis.ticks(7)
-    }
-    // gridlines in y axis function
-    function make_y_gridlines() {
-        return yAxis.ticks(5)
     }
 
     // Get the data and create the graph from it.
@@ -322,18 +300,6 @@
             .style("font", "16px sans-serif")
             // .style("text-decoration", "underline")
             .text("Cumulative deaths per one million population [TODO: DATE]");
-
-        // Add the gridlines
-        // add the X gridlines
-/*        svg.append("g")
-            .attr("class", "grid")
-            .attr("transform", "translate(0," + height + ")")
-            .call(xAxisGrid); */
-        // add the Y gridlines
-/*        svg.append("g")
-            .attr("class", "grid")
-            .call(yAxisGrid);
-*/
 
         // Interactions with mouse
         var mouseG = svg.append("g")
