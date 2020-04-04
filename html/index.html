@@ -69,27 +69,18 @@
         svg.append("path")
             .data([data])
             .attr("class", "line")
-            .style("stroke", function(d) { return d.color; })
+            .style("stroke", function() { return coutry_data.color = color(countr_data.name); })
             .attr("d", valueline)
             .attr("id", function(d) { return "graph-"+d.name; }); // Assign an id for each line.
             //            .style("stroke", function(d) { return d.color; });
     //.attr("stroke", function() { return 'red'; });
-        // Add the X Axis
-        console.log("Adding the x axis");
-        svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
-
-        // Add the Y Axis
-        console.log("Adding the y axis");
-        svg.append("g")
-            .call(d3.axisLeft(y));
     }
     // Get the data
     d3.json("../data/how_is_Denmark_doing_cumulative_pop.json", function(error, data) {
         if (error) throw error;
 
         // Clean data. Remove any data that is NaN or similar
+        // TODO: Remove this in final version.
         data.forEach(function (c) {
             console.log("Cleaning data for " + c.name);
             c.data = c.data.filter(function (e) {
@@ -97,7 +88,14 @@
             })
         });
 
-        // Find min and max in data
+        // TODO: Our data is almost already a "dataNest". Lets adapt to the nest format for the next lines
+        data.forEach(function (c) {
+            c.key = c.name;
+            c.values = c.data;
+        })
+
+
+        // Find min and max in data and use it to set the extent of the chart.
         // Note, date are numbers, starting in 0 for this graph.
         var maxDate = 0;
         var maxValue = 0;
@@ -108,19 +106,39 @@
                 maxValue = Math.max(maxValue, e.value);
             })
         });
-
-        // Set colors
-        for (var i = 0 ; i < data.length; ++i) {
-            data[i].color = colorScale[i];
-        }
-
-        // See        https://bl.ocks.org/larsenmtl/e3b8b7c2ca4787f77d78f58d41c3da91
-
         set_domain(maxDate, maxValue);
 
+        // Add the elements to the svg graph
+        // set the colour scale
+        var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        // Loop through each symbol / key
+        console.log("Adding the lines");
+        data.forEach(function(d) {
+
+            svg.append("path")
+                .attr("class", "line")
+                .style("stroke", function() { // Add the colours dynamically
+                    return d.color = color(d.key); })
+                .attr("d", valueline(d.values));
+        });
+
+
+        // Set the X and Y axes.
+        // Add the X Axis
+        console.log("Adding the x axis");
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        // Add the Y Axis
+        console.log("Adding the y axis");
+        svg.append("g")
+            .call(d3.axisLeft(y));
+
         // trigger render of the first country
-        draw_country(data[0]);
-        draw_country(data[1]);
+        // draw_country(data[0]);
+        // draw_country(data[1]);
     });
 
 </script>
