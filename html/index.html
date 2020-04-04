@@ -26,8 +26,11 @@
     var x = d3.scaleLinear().range([0, width]);
     var y = d3.scaleLinear().range([height, 0]);
 
-    // define the line
+    // Room for 10 different colors.
+    var colorScale = d3.schemeCategory10;
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
 
+    // define the line
     var valueline = d3.line()
         .x(function(d) { return x(d.date); })
         .y(function(d) { return y(d.value); });
@@ -66,8 +69,11 @@
         svg.append("path")
             .data([data])
             .attr("class", "line")
+            .style("stroke", function(d) { return d.color; })
             .attr("d", valueline)
             .attr("id", function(d) { return "graph-"+d.name; }); // Assign an id for each line.
+            //            .style("stroke", function(d) { return d.color; });
+    //.attr("stroke", function() { return 'red'; });
         // Add the X Axis
         console.log("Adding the x axis");
         svg.append("g")
@@ -91,7 +97,6 @@
             })
         });
 
-
         // Find min and max in data
         // Note, date are numbers, starting in 0 for this graph.
         var maxDate = 0;
@@ -103,6 +108,14 @@
                 maxValue = Math.max(maxValue, e.value);
             })
         });
+
+        // Set colors
+        for (var i = 0 ; i < data.length; ++i) {
+            data[i].color = colorScale[i];
+        }
+
+        // See        https://bl.ocks.org/larsenmtl/e3b8b7c2ca4787f77d78f58d41c3da91
+
         set_domain(maxDate, maxValue);
 
         // trigger render of the first country
