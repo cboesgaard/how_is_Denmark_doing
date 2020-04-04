@@ -78,6 +78,8 @@
 
 <script>
 
+    var globalDate = "Unknown";
+
     // set the dimensions and margins of the graph
     var margin = {top: 30, right: 20, bottom: 90, left: 70},
         width = 960 - margin.left - margin.right,
@@ -194,14 +196,19 @@
     d3.json("../data/how_is_Denmark_doing_cumulative_pop.json", function(error, data) {
         if (error) throw error;
 
-        // Clean data. Remove any data that is NaN or similar
-        // TODO: Remove this in final version.
+        // Clean data. Remove any data that is null
+        // Also, pick out the global date from the Denmark entry.
         data.forEach(function (c) {
             console.log("Cleaning data for " + c.name);
             c.data = c.data.filter(function (e) {
                 return e.value != null;
             })
+            if (c.name == "Denmark") {
+                globalDate = c.date;
+            }
         });
+
+        console.log("Found global date to " + globalDate);
 
         // Our data is almost already a "dataNest". Lets adapt to the nest format for the next lines, and set active
         data.forEach(function (c) {
@@ -299,7 +306,7 @@
             .attr("text-anchor", "middle")
             .style("font", "16px sans-serif")
             // .style("text-decoration", "underline")
-            .text("Cumulative deaths per one million population [TODO: DATE]");
+            .text("Cumulative deaths per one million population [" + globalDate + "]");
 
         // Interactions with mouse
         var mouseG = svg.append("g")
