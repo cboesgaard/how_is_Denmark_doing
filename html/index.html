@@ -126,6 +126,7 @@
                 .attr("class", "line")
                 .style("stroke", function() { // Add the colours dynamically
                     return d.color = color(d.key); })
+                .attr("id", 'tag'+d.key.replace(/\s+/g, ''))
                 .attr("d", valueline(d.values));
 
             // This statement add a legend text for the line
@@ -137,8 +138,19 @@
                 // style the legend
                 .style("fill", function() { // dynamic colours
                     return d.color = color(d.key); })
+                // This section makes it interactive.
+                .on("click", function(){
+                    // Determine if current line is visible
+                    var active = d.active ? false : true;
+                    var newOpacity = active ? 0 : 1;
+                    // Hide or show the elements based on the ID
+                    d3.select("#tag"+d.key.replace(/\s+/g, ''))
+                        .transition().duration(100)
+                        .style("opacity", newOpacity);
+                    // Update whether or not the elements are active
+                    d.active = active;
+                })
                 .text(d.key);
-
         });
 
 
