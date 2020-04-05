@@ -79,7 +79,8 @@
 <script>
 
     var globalDate = "Unknown";
-
+    var dataFile = "../data/how_is_Denmark_doing_cumulative_pop.json";
+    
     // set the dimensions and margins of the graph
     var margin = {top: 30, right: 20, bottom: 90, left: 70},
         width = 960 - margin.left - margin.right,
@@ -94,7 +95,7 @@
     // var y = d3.scaleLog().range([height, 0]); // .domain([1,200]);
 
     var xAxis = d3.axisBottom()
-  	    .scale(x);
+ 	    .scale(x);
 
     var yAxis = d3.axisLeft()
         .scale(y);
@@ -193,7 +194,7 @@
     }
 
     // Get the data and create the graph from it.
-    d3.json("../data/how_is_Denmark_doing_cumulative_pop.json", function(error, data) {
+    d3.json(dataFile, function(error, data) {
         if (error) throw error;
 
         // Clean data. Remove any data that is null
@@ -299,7 +300,6 @@
             .text("Cumulative deaths per one million population");
 
         // add a title
-        // TODO: We require the date in the json.
         svg.append("text")
             .attr("x", (width / 2))
             .attr("y", 0 - (margin.top / 2))

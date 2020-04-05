@@ -6,7 +6,9 @@
 OUTPUTCOLOR=
 NOCOLOR=
 function info() {
-  echo "${OUTPUTCOLOR}[${SCRIPTNAME}]${NOCOLOR} $(date +"%T.%N") INFO:" "$@"
+    # Uncomment to get information during runs. 
+    #  echo "${OUTPUTCOLOR}[${SCRIPTNAME}]${NOCOLOR} $(date +"%T.%N") INFO:" "$@"
+    :
 }
 
 function debug() {
