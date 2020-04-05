@@ -27,6 +27,6 @@ done
 
 info "Copying index.html"
 # We modify the file for now. So we always copy. Later we will do something neater.
-sed 's/\.\.\/data\///' < html/index.html > ${DESTDIR}/index.html || die "Error modifying and copying index.html"
+sed 's/\.\.\/data\///g' < html/index.html > ${DESTDIR}/index.html || die "Error modifying and copying index.html"
 
 info "Done. Everything published in ${DESTDIR}"
