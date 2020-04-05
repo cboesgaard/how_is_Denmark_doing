@@ -200,7 +200,7 @@ function timeSeriesChart(_chartId) {
 
             // Add the elements to the svg graph
             // set the colour scale - this allow for 10 colors / lines
-            var color = d3.scaleOrdinal(d3.schemeCategory10);
+            var color = d3.scaleOrdinal(d3.schemeCategory20);
 
             // Loop through each country, and add the lines.
             console.log("Adding the lines");
