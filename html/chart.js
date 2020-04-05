@@ -1,6 +1,8 @@
-function timeSeriesChart() {
+function timeSeriesChart(id) {
 
     console.log("timeSeriesChart called");
+
+    var id = id;
 
     // Our globalDate is unknown, until we have read the data.
     var globalDate = "Unknown";
@@ -114,7 +116,7 @@ function timeSeriesChart() {
         data.forEach(function (c) {
             // Hide or show the elements based on the ID
             var newOpacity = c.active ? 1 : 0;
-            d3.select("#tag" + c.key.replace(/[\s,]+/g, ''))
+            d3.select("#tag-" + id + "-" + c.key.replace(/[\s,]+/g, ''))
                 .transition().duration(duration)
                 .attr("d", valueline(c.values))
                 .style("opacity", newOpacity);
@@ -207,7 +209,7 @@ function timeSeriesChart() {
                     .style("stroke", function () { // Add the colours dynamically
                         return d.color = color(d.key);
                     })
-                    .attr("id", 'tag' + d.key.replace(/[\s,]+/g, ''))
+                    .attr("id", "tag-" + id + "-" + d.key.replace(/[\s,]+/g, ''))
                     .attr("d", valueline(d.values));
 
                 // This statement add a legend text for the line
@@ -388,7 +390,7 @@ function timeSeriesChart() {
             // LOG TOGGLE
             buttonData = [{label: "Log scale", x: 60, y: 30}]
 
-            function buttonEvent(pressed) {
+            function buttonEvent(pressed, i) {
                 if (pressed) {
                     logScale = true;
                     y = d3.scaleLog().range([height, 0]);
@@ -403,10 +405,10 @@ function timeSeriesChart() {
             // Create button
             var button = d3.button()
                 .on('press', function (d, i) {
-                    buttonEvent(true);
+                    buttonEvent(true, i);
                 })
                 .on('release', function (d, i) {
-                    buttonEvent(false);
+                    buttonEvent(false, i);
                 });
 
             // Add button

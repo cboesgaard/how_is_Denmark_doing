@@ -96,7 +96,8 @@
     <p>Move mouse over graph (or click) to get data readings. Click a label to toggle this country. Click button to toggle
     log and normal scale on the Y axis.</p>
 
-    <div id="first"/>
+    <div id="chartdiv1"/>
+    <div id="chartdiv2"/>
 
 
 <p>Information about <a href="https://github.com/cboesgaard/how_is_Denmark_doing">sources, etc.</a></p>
@@ -104,22 +105,35 @@
 
 <script>
 
-    var dataFile = "../data/how_is_Denmark_doing_cumulative_pop.json";
+    var dataFile1 = "../data/how_is_Denmark_doing_cumulative_pop.json";
+    var dataFile2 = "../data/how_is_Denmark_doing_cumulative.json";
 
-    var chart = timeSeriesChart()
+    var chart1 = timeSeriesChart()
         .title("Cumulative deaths per one million population")
         .xAxisTitle("Days since one death per one million population reached")
         .xAxisSubTitle("cbo@dbc.dk & mabd@dbc.dk")
         .yAxisTitle("Cumulative deaths per one million population");
-    d3.json(dataFile, function(error, data) {
+    d3.json(dataFile1, function(error, data) {
         if (error) throw error;
-        console.log("Got into json");
-        console.log("Data is " + data);
-        data = chart.prepareData(data);
-        d3.select("#first")
+        data = chart1.prepareData(data);
+        d3.select("#chartdiv1")
         .datum(data)
-        .call(chart);
+        .call(chart1);
     });
+
+    var chart2 = timeSeriesChart()
+        .title("Cumulative deaths")
+        .xAxisTitle("Days since first reported deatch")
+        .xAxisSubTitle("cbo@dbc.dk & mabd@dbc.dk")
+        .yAxisTitle("Cumulative deaths");
+    d3.json(dataFile2, function(error, data) {
+        if (error) throw error;
+        data = chart2.prepareData(data);
+        d3.select("#chartdiv2")
+            .datum(data)
+            .call(chart2);
+    });
+
 </script>
 
 </body>
