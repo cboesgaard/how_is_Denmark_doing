@@ -289,7 +289,6 @@ function timeSeriesChart(_chartId) {
 
             // Interactions with mouse
             var mouseG = svg.append("g")
-//                .attr("class", "mouse-over-effects");
                 .attr("class", "mouse-over-effects");
 
             // This is our lines.
@@ -329,7 +328,7 @@ function timeSeriesChart(_chartId) {
                 .attr('fill', 'none')
                 .attr('pointer-events', 'all')
                 .on('mouseout', function () { // on mouse out hide line, circles and text
-                    d3.select(".mouse-line [chartId=CI"+chartId+"]")
+                    d3.select(".mouse-over-effects path[chartId=CI"+chartId+"]")
                         .style("opacity", "0");
                     d3.selectAll(".mouse-per-line circle[chartId=CI"+chartId+"]")
                         .style("opacity", "0");
@@ -337,29 +336,28 @@ function timeSeriesChart(_chartId) {
                         .style("opacity", "0");
                 })
                 .on('mouseover', function () { // on mouse in show line, circles and text
-//                    d3.select(".mouse-line")
-                    d3.select("[chartId=CI"+chartId+"]")
+                    d3.select(".mouse-over-effects path[chartId=CI"+chartId+"]")
                         .style("opacity", "0.8");
-//                    d3.selectAll(".mouse-per-line circle")
                     d3.selectAll(".mouse-per-line circle[chartId=CI"+chartId+"]")
                         .style("opacity", function (d) {
                             return d.active ? 1 : 0;
                         });
                     d3.selectAll(".mouse-per-line text[chartId=CI"+chartId+"]")
-//                    d3.selectAll("text[chartId=CI"+chartId+"]")
                         .style("opacity", function (d) {
                             return d.active ? 1 : 0;
                         });
                 })
                 .on('mousemove', function () { // mouse moving over canvas
                     var mouse = d3.mouse(this);
-                    d3.select(".mouse-line [chartId=CI"+chartId+"]")
+                    d3.select(".mouse-over-effects path[chartId=CI"+chartId+"]")
                         .attr("d", function () {
                             var d = "M" + mouse[0] + "," + height;
                             d += " " + mouse[0] + "," + 0;
                             return d;
                         });
 
+                    // I can't make this work only for the ones associated with this chart.
+//                    d3.selectAll(".mouse-per-line circle[chartId=CI"+chartId+"], .mouse-per-line text[chartId=CI"+chartId+"]")
                     d3.selectAll(".mouse-per-line")
                         .attr("transform", function (d, i) {
                             // console.log(width/mouse[0])
