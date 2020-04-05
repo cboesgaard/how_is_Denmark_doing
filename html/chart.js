@@ -393,19 +393,24 @@ function timeSeriesChart(_chartId) {
                     .style("fill", function () { // dynamic colours
                         return d.color = color(d.key);
                     })
-                    .style("opacity", 0.9)
+                    .style("opacity", 1.0)
                     // This section makes it interactive.
                     .on("click", function () {
                         // Determine if current line is visible
                         d.active = d.active ? false : true;
-                        var newOpacity = d.active ? 0.9 : 0.5;
+                        var newOpacity = d.active ? 1.0 : 0.9;
+			var newDecoration = d.active ? "" : "line-through";
+			var newWeight = d.active ? "bold" : "normal";
                         // console.log("Status of active for " + d.key + " is " + d.active);
                         rescale(data);
                         // console.log("Rescale done");
                         // Find myself. Then set opacity
 
                         d3.select("#tag-text-" + chartId + "-" + d.key.replace(/[\s,]+/g, ''))
-                            .style("opacity", newOpacity);
+			    .transition().duration(500)
+                            .style("opacity", newOpacity)
+			    .style("font-weight", newWeight)
+                            .style("text-decoration", newDecoration);			
                     })
                     .text(d.key);
             });
