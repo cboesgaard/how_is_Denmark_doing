@@ -108,7 +108,7 @@
     var dataFile1 = "../data/how_is_Denmark_doing_cumulative_pop.json";
     var dataFile2 = "../data/how_is_Denmark_doing_cumulative.json";
 
-    var chart1 = timeSeriesChart()
+    var chart1 = timeSeriesChart(1)
         .title("Cumulative deaths per one million population")
         .xAxisTitle("Days since one death per one million population reached")
         .xAxisSubTitle("cbo@dbc.dk & mabd@dbc.dk")
@@ -121,7 +121,7 @@
         .call(chart1);
     });
 
-    var chart2 = timeSeriesChart()
+    var chart2 = timeSeriesChart(2)
         .title("Cumulative deaths")
         .xAxisTitle("Days since first reported deatch")
         .xAxisSubTitle("cbo@dbc.dk & mabd@dbc.dk")

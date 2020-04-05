@@ -1,8 +1,11 @@
-function timeSeriesChart(id) {
+function timeSeriesChart(_chartId) {
 
     console.log("timeSeriesChart called");
 
-    var id = id;
+    if (!arguments.length) throw new Error("timeSeriesChart requires an argument");
+
+
+    var chartId = _chartId;
 
     // Our globalDate is unknown, until we have read the data.
     var globalDate = "Unknown";
@@ -116,7 +119,7 @@ function timeSeriesChart(id) {
         data.forEach(function (c) {
             // Hide or show the elements based on the ID
             var newOpacity = c.active ? 1 : 0;
-            d3.select("#tag-" + id + "-" + c.key.replace(/[\s,]+/g, ''))
+            d3.select("#tag-" + chartId + "-" + c.key.replace(/[\s,]+/g, ''))
                 .transition().duration(duration)
                 .attr("d", valueline(c.values))
                 .style("opacity", newOpacity);
@@ -209,7 +212,7 @@ function timeSeriesChart(id) {
                     .style("stroke", function () { // Add the colours dynamically
                         return d.color = color(d.key);
                     })
-                    .attr("id", "tag-" + id + "-" + d.key.replace(/[\s,]+/g, ''))
+                    .attr("id", "tag-" + chartId + "-" + d.key.replace(/[\s,]+/g, ''))
                     .attr("d", valueline(d.values));
 
                 // This statement add a legend text for the line
@@ -286,6 +289,7 @@ function timeSeriesChart(id) {
 
             // Interactions with mouse
             var mouseG = svg.append("g")
+//                .attr("class", "mouse-over-effects");
                 .attr("class", "mouse-over-effects");
 
             // This is our lines.
@@ -299,6 +303,7 @@ function timeSeriesChart(id) {
 
             mousePerLine.append("circle")
                 .attr("r", 7)
+                .attr("chartId", "CI" + chartId)
                 .style("stroke", function (d) {
                     return color(d.name);
                 })
@@ -308,10 +313,12 @@ function timeSeriesChart(id) {
 
             mousePerLine.append("text")
                 .attr("transform", "translate(10,3)")
-                .style("font", "10px sans-serif");
+                .attr("chartId", "CI" + chartId)
+                .style("font", "9px sans-serif");
 
             mouseG.append("path") // this is the black vertical line to follow mouse
                 .attr("class", "mouse-line")
+                .attr("chartId", "CI" + chartId)
                 .style("stroke", "black")
                 .style("stroke-width", "1px")
                 .style("opacity", "0");
@@ -322,28 +329,31 @@ function timeSeriesChart(id) {
                 .attr('fill', 'none')
                 .attr('pointer-events', 'all')
                 .on('mouseout', function () { // on mouse out hide line, circles and text
-                    d3.select(".mouse-line")
+                    d3.select(".mouse-line [chartId=CI"+chartId+"]")
                         .style("opacity", "0");
-                    d3.selectAll(".mouse-per-line circle")
+                    d3.selectAll(".mouse-per-line circle[chartId=CI"+chartId+"]")
                         .style("opacity", "0");
-                    d3.selectAll(".mouse-per-line text")
+                    d3.selectAll(".mouse-per-line text[chartId=CI"+chartId+"]")
                         .style("opacity", "0");
                 })
                 .on('mouseover', function () { // on mouse in show line, circles and text
-                    d3.select(".mouse-line")
+//                    d3.select(".mouse-line")
+                    d3.select("[chartId=CI"+chartId+"]")
                         .style("opacity", "0.8");
-                    d3.selectAll(".mouse-per-line circle")
+//                    d3.selectAll(".mouse-per-line circle")
+                    d3.selectAll(".mouse-per-line circle[chartId=CI"+chartId+"]")
                         .style("opacity", function (d) {
                             return d.active ? 1 : 0;
                         });
-                    d3.selectAll(".mouse-per-line text")
+                    d3.selectAll(".mouse-per-line text[chartId=CI"+chartId+"]")
+//                    d3.selectAll("text[chartId=CI"+chartId+"]")
                         .style("opacity", function (d) {
                             return d.active ? 1 : 0;
                         });
                 })
                 .on('mousemove', function () { // mouse moving over canvas
                     var mouse = d3.mouse(this);
-                    d3.select(".mouse-line")
+                    d3.select(".mouse-line [chartId=CI"+chartId+"]")
                         .attr("d", function () {
                             var d = "M" + mouse[0] + "," + height;
                             d += " " + mouse[0] + "," + 0;
@@ -388,9 +398,9 @@ function timeSeriesChart(id) {
 
 
             // LOG TOGGLE
-            buttonData = [{label: "Log scale", x: 60, y: 30}]
+            buttonData = [{label: "Log scale", x: 60, y: 30}];
 
-            function buttonEvent(pressed, i) {
+            function buttonEvent(pressed) {
                 if (pressed) {
                     logScale = true;
                     y = d3.scaleLog().range([height, 0]);
