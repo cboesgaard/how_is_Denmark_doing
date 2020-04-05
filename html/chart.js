@@ -5,6 +5,10 @@ function timeSeriesChart() {
     // Our globalDate is unknown, until we have read the data.
     var globalDate = "Unknown";
 
+    var title = "";
+    var xAxisTitle = "";
+    var xAxisSubTitle = "";
+    var yAxisTitle = "";
 
     // set the dimensions and margins of the graph
     var margin = {top: 30, right: 20, bottom: 90, left: 70},
@@ -205,18 +209,18 @@ function timeSeriesChart() {
             // label and sublabel
             svg.append("text")
                 .attr("x", width / 2)
-                .attr("y", height + margin.top + 20)
+                .attr("y", height + margin.top + 25)
                 .style("text-anchor", "middle")
                 .style("font", "12px sans-serif")
-                .text("Days since one death per one million population reached");
+                .text(xAxisTitle);
 
             // sublabel
             svg.append("text")
                 .attr("x", width / 2)
                 .attr("y", height + margin.top + 40)
                 .style("text-anchor", "middle")
-                .style("font", "12px sans-serif")
-                .text("cbo@dbc.dk");
+                .style("font", "10px sans-serif")
+                .text(xAxisSubTitle);
 
 
             // Add the Y Axis
@@ -233,7 +237,7 @@ function timeSeriesChart() {
                 .attr("dy", "1em")
                 .style("text-anchor", "middle")
                 .style("font", "12px sans-serif")
-                .text("Cumulative deaths per one million population");
+                .text(yAxisTitle);
 
             // add a title
             svg.append("text")
@@ -242,14 +246,14 @@ function timeSeriesChart() {
                 .attr("text-anchor", "middle")
                 .style("font", "16px sans-serif")
                 // .style("text-decoration", "underline")
-                .text("Cumulative deaths per one million population [" + globalDate + "]");
+                //.text("Cumulative deaths per one million population [" + globalDate + "]");
+                .text(title + " [" + globalDate + "]");
 
             // Interactions with mouse
             var mouseG = svg.append("g")
                 .attr("class", "mouse-over-effects");
 
             // This is our lines.
-            // TODO: Some of them are not active...
             var lines = document.getElementsByClassName('line');
 
             var mousePerLine = mouseG.selectAll('.mouse-per-line')
@@ -388,6 +392,29 @@ function timeSeriesChart() {
 
     } // function chart
 
+    chart.title = function(_) {
+        if (!arguments.length) return title;
+        title = _;
+        return chart;
+    };
+
+    chart.xAxisTitle = function(_) {
+        if (!arguments.length) return xAxisTitle;
+        xAxisTitle = _;
+        return chart;
+    };
+
+    chart.xAxisSubTitle = function(_) {
+        if (!arguments.length) return xAxisSubTitle;
+        xAxisSubTitle = _;
+        return chart;
+    };
+
+    chart.yAxisTitle = function(_) {
+        if (!arguments.length) return yAxisTitle;
+        yAxisTitle = _;
+        return chart;
+    };
 
     chart.prepareData = prepareData;
 

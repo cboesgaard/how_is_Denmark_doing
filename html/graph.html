@@ -84,7 +84,11 @@
 
     var dataFile = "../data/how_is_Denmark_doing_cumulative_pop.json";
 
-    var chart = timeSeriesChart();
+    var chart = timeSeriesChart()
+        .title("Cumulative deaths per one million population")
+        .xAxisTitle("Days since one death per one million population reached")
+        .xAxisSubTitle("cbo@dbc.dk & mabd@dbc.dk")
+        .yAxisTitle("Cumulative deaths per one million population");
     d3.json(dataFile, function(error, data) {
         if (error) throw error;
         console.log("Got into json");
