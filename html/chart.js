@@ -84,7 +84,7 @@ function timeSeriesChart(_chartId) {
                 })
             }
         });
-        set_domain(maxDate, maxValue);
+        set_domain(maxDate + 1, Math.round(maxValue * 1.05));
     }
 
     // Called whenever the user clicks a labelor toggle an axis.
