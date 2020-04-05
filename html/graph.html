@@ -118,7 +118,8 @@ body {
         .title("Daily deaths")
         .xAxisTitle("Days since first reported death")
         .xAxisSubTitle("cbo@dbc.dk & mabd@dbc.dk")
-        .yAxisTitle("Number of deaths a day");
+        .yAxisTitle("Number of deaths a day")
+        .logToggle(false);
     d3.json(dataFile3, function(error, data) {
         if (error) throw error;
         data = chart3.prepareData(data);

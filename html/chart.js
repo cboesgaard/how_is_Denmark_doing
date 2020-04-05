@@ -15,6 +15,8 @@ function timeSeriesChart(_chartId) {
     var xAxisSubTitle = "";
     var yAxisTitle = "";
 
+    var logToggle = true;
+
     // set the dimensions and margins of the graph
     var margin = {top: 30, right: 20, bottom: 50, left: 70},
         width = 960 - margin.left - margin.right,
@@ -409,38 +411,41 @@ function timeSeriesChart(_chartId) {
             });
 
             // LOG SCALE TOGGLE
-            buttonData = [{label: "Log scale", x: 10, y:height+35}];
-            function buttonEvent(pressed) {
-                if (pressed) {
-                    logScale = true;
-                    y = d3.scaleLog().range([height, 0]);
-                } else {
-                    logScale = false;
-                    y = d3.scaleLinear().range([height, 0]);
+            if (logToggle) {
+                buttonData = [{label: "Log scale", x: 10, y: height + 30}];
+
+                function buttonEvent(pressed) {
+                    if (pressed) {
+                        logScale = true;
+                        y = d3.scaleLog().range([height, 0]);
+                    } else {
+                        logScale = false;
+                        y = d3.scaleLinear().range([height, 0]);
+                    }
+                    rescale(data);
+
                 }
-                rescale(data);
+
+                // Create button. use chartId as groupId.
+                var button = d3.button(chartId)
+                    .on('press', function (d, i) {
+                        console.log("Button pressed: " + i);
+                        buttonEvent(true, i);
+                    })
+                    .on('release', function (d, i) {
+                        console.log("Button released: " + i);
+                        buttonEvent(false, i);
+                    });
+
+                // Add button
+                var buttons = svg.selectAll('.button')
+                    .data(buttonData)
+                    .enter()
+                    .append('g')
+                    .attr('class', 'button')
+                    .call(button);
 
             }
-
-            // Create button. use chartId as groupId.
-            var button = d3.button(chartId)
-                .on('press', function (d, i) {
-                    console.log("Button pressed: " + i);
-                    buttonEvent(true, i);
-                })
-                .on('release', function (d, i) {
-                    console.log("Button released: " + i);
-                    buttonEvent(false, i);
-                });
-
-            // Add button
-            var buttons = svg.selectAll('.button')
-                .data(buttonData)
-                .enter()
-                .append('g')
-                .attr('class', 'button')
-                .call(button);
-
 
             // When everything is added, "rescale", to make sure we know how we work initially
             rescale(data);
@@ -470,6 +475,12 @@ function timeSeriesChart(_chartId) {
     chart.yAxisTitle = function(_) {
         if (!arguments.length) return yAxisTitle;
         yAxisTitle = _;
+        return chart;
+    };
+
+    chart.logToggle = function(_) {
+        if (!arguments.length) return logToggle;
+        logToggle = _;
         return chart;
     };
 
