@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2px;
+}
+
+/* This defines the grid lines style */
+.tick line {
+    stroke: lightgrey;
+    stroke-opacity: 0.4;
+    shape-rendering: crispEdges;
+}
+.tick path {
+    stroke-width: 0;
+}
+
+/* This defines the style of the legend font */
+.legend {
+    font-size: 14px;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-anchor: middle;
+}
+
+
+/* Button styles, for the log toggle */
+.button rect {
+    stroke: #999faa; /* navy 40% */
+    stroke-width: 2px;
+}
+
+.button rect.pressed {
+    fill: #000f2b; /* navy 100% */
+}
+
+.button #gradient-start {
+    stop-color: #999faa; /* navy 40% */
+    stop-opacity: 1;
+}
+
+.button #gradient-stop {
+    stop-color: #4d576b; /* navy 70% */
+    stop-opacity: 1;
+}
+
+.button #gradient-start.active, .button #gradient-start.pressed {
+    stop-color: #4d576b; /* navy 70% */
+}
+
+.button #gradient-stop.active, .button #gradient-stop.pressed {
+    stop-color: #000f2b; /* navy 100% */
+}
+
+.button text {
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: bold;
+    fill: #eee;
+    pointer-events: none;
+    text-anchor: middle;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+</style>
+<body>
+
+
+
+<!-- load the d3.js library -->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="d3.button.js"></script>
+<script src="chart.js"></script>
+
+<p>My graph is nice</p>
+<div id="first"/>
+
+<script>
+
+    var dataFile = "../data/how_is_Denmark_doing_cumulative_pop.json";
+
+    var chart = timeSeriesChart();
+    d3.json(dataFile, function(error, data) {
+        if (error) throw error;
+        console.log("Got into json");
+        console.log("Data is " + data);
+        data = chart.prepareData(data);
+        d3.select("#first")
+        .datum(data)
+        .call(chart);
+    });
+</script>
+
+</body>
