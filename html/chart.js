@@ -410,12 +410,14 @@ function timeSeriesChart(_chartId) {
 
             }
 
-            // Create button
-            var button = d3.button()
+            // Create button. use chartId as groupId.
+            var button = d3.button(chartId)
                 .on('press', function (d, i) {
+                    console.log("Button pressed: " + i);
                     buttonEvent(true, i);
                 })
                 .on('release', function (d, i) {
+                    console.log("Button released: " + i);
                     buttonEvent(false, i);
                 });
 

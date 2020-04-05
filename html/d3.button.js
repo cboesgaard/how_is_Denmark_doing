@@ -1,4 +1,7 @@
-d3.button = function() {
+d3.button = function(_groupId) {
+
+    if (!arguments.length) throw new Error("button requires an argument");
+
 
     var dispatch = d3.dispatch('press', 'release');
 
@@ -8,10 +11,13 @@ d3.button = function() {
         offsetX = 2,
         offsetY = 4;
 
+    // Variable to control the group.
+    var groupId = _groupId;
+
     function my(selection) {
         selection.each(function(d, i) {
             var g = d3.select(this)
-                .attr('id', 'd3-button' + i)
+                .attr('id', 'd3-button' + groupId + i)
                 .attr('transform', 'translate(' + d.x + ',' + d.y + ')');
 
             var text = g.append('text').text(d.label);
@@ -36,7 +42,7 @@ d3.button = function() {
     function addGradient(d, i) {
         var defs = d3.select(this).select('defs');
         var gradient = defs.append('linearGradient')
-            .attr('id', 'gradient' + i)
+            .attr('id', 'gradient' + groupId + i)
             .attr('x1', '0%')
             .attr('y1', '0%')
             .attr('x2', '0%')
@@ -50,14 +56,14 @@ d3.button = function() {
             .attr('id', 'gradient-stop')
             .attr('offset', '100%')
 
-        d3.select(this).select('rect').attr('fill', 'url(#gradient' + i + ")" );
+        d3.select(this).select('rect').attr('fill', 'url(#gradient' + groupId + i + ")" );
     }
 
     function addShadow(d, i) {
         var defs = d3.select(this).select('defs');
-        var rect = d3.select(this).select('rect').attr('filter', 'url(#dropShadow' + i + ")" );
+        var rect = d3.select(this).select('rect').attr('filter', 'url(#dropShadow' + groupId + i + ")" );
         var shadow = defs.append('filter')
-            .attr('id', 'dropShadow' + i)
+            .attr('id', 'dropShadow' + groupId + i)
             .attr('x', rect.attr('x'))
             .attr('y', rect.attr('y'))
             .attr('width', rect.attr('width') + offsetX)
