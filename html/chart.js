@@ -29,8 +29,9 @@ function timeSeriesChart() {
     var yAxis = d3.axisLeft()
         .scale(y);
 
+    // var area = d3.svg.area().x(X).y1(Y);
 
-    // define the line - a function that returns x and y from a single data point.
+    // define the line function - a function that returns x and y from a single data point.
     var valueline = d3.line()
         .x(function (d) {
             return x(d.date);
@@ -43,12 +44,7 @@ function timeSeriesChart() {
     // appends a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
 
-    var svg = d3.select("body").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+    var svg = null;
 
     // function to set extends of axis. both start in 0
     function set_domain(maxX, maxY) {
@@ -156,6 +152,42 @@ function timeSeriesChart() {
         console.log("in chart");
         // Get the data and create the graph from it.
         selection.each(function (data) {
+
+/*
+            // Select the svg element, if it exists.
+            svg = d3.select(this).selectAll("svg").data([data]);
+
+              // Otherwise, create the skeletal chart.
+            var gEnter = svg.enter().append("svg").append("g");
+                gEnter.append("path").attr("class", "area");
+                gEnter.append("path").attr("class", "line");
+                gEnter.append("g").attr("class", "x axis");
+
+*/
+            // This "almost" works. Appends stuff inside the div I though
+            // we were using. Argh.
+            if (svg == null) { // This won't work for repeated calls.
+                svg = d3.select(this).append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform",
+                        "translate(" + margin.left + "," + margin.top + ")");
+            }
+
+/*
+             // Update the outer dimensions.
+            svg .attr("width", width)
+                .attr("height", height);
+
+            // Update the inner dimensions.
+            var g = svg.select("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            // Update the area path.
+            g.select(".area")
+                .attr("d", area.y0(yScale.range()[0]));
+*/
 
             set_domain_from_data(data);
 
