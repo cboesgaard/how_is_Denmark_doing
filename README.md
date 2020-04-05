@@ -16,6 +16,10 @@ Data is aligned to start at the date of firste reported COVID-19 related death i
 
 ![Cumulative death counts](figures/how_is_Denmark_doing_cumulative_pop.png)
 
+## More visualizations
+
+There are some very nice d3 plots showing these data at [challenge.dk/covid19/](http://www.challenge.dk/covid19/)
+
 ## Data
 
 Danish data is from Statens Serum Institut (SSI): https://www.ssi.dk/aktuelt/sygdomsudbrud/coronavirus/covid-19-i-danmark-epidemiologisk-overvaagningsrapport
