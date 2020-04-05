@@ -16,7 +16,7 @@ function timeSeriesChart(_chartId) {
     var yAxisTitle = "";
 
     // set the dimensions and margins of the graph
-    var margin = {top: 30, right: 20, bottom: 90, left: 70},
+    var margin = {top: 30, right: 20, bottom: 50, left: 70},
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -202,8 +202,6 @@ function timeSeriesChart(_chartId) {
 
             // Loop through each country, and add the lines.
             console.log("Adding the lines");
-            // Calculate space for the legend
-            legendSpace = width / data.length; // spacing for legend
             data.forEach(function (d, i) {
 
                 // This statement add the actual lines, based on the values.
@@ -215,24 +213,6 @@ function timeSeriesChart(_chartId) {
                     .attr("id", "tag-" + chartId + "-" + d.key.replace(/[\s,]+/g, ''))
                     .attr("d", valueline(d.values));
 
-                // This statement add a legend text for the line
-                // This could be moved somewhere else, and be more "traditionel"
-                svg.append("text")
-                    .attr("x", (legendSpace / 2) + i * legendSpace) // spacing
-                    .attr("y", height + (margin.bottom / 2) - 8)
-                    .attr("class", "legend")
-                    // style the legend
-                    .style("fill", function () { // dynamic colours
-                        return d.color = color(d.key);
-                    })
-                    // This section makes it interactive.
-                    .on("click", function () {
-                        // Determine if current line is visible
-                        d.active = d.active ? false : true;
-                        console.log("Status of active for " + d.key + " is " + d.active);
-                        rescale(data);
-                    })
-                    .text(d.key);
             });
 
 
@@ -247,7 +227,7 @@ function timeSeriesChart(_chartId) {
             // label and sublabel
             svg.append("text")
                 .attr("x", width / 2)
-                .attr("y", height + margin.top + 25)
+                .attr("y", height + margin.top + 0)
                 .style("text-anchor", "middle")
                 .style("font", "12px sans-serif")
                 .text(xAxisTitle);
@@ -255,7 +235,7 @@ function timeSeriesChart(_chartId) {
             // sublabel
             svg.append("text")
                 .attr("x", width / 2)
-                .attr("y", height + margin.top + 40)
+                .attr("y", height + margin.top + 15)
                 .style("text-anchor", "middle")
                 .style("font", "10px sans-serif")
                 .text(xAxisSubTitle);
@@ -395,9 +375,41 @@ function timeSeriesChart(_chartId) {
                 });
 
 
-            // LOG TOGGLE
-            buttonData = [{label: "Log scale", x: 60, y: 30}];
+            // We put the legend after the mouse rect, because it needs to interact
+            // with the mouse too.
+            data.forEach(function (d, i) {
 
+                // LEGENDS
+                // This statement add a legend text for the line
+                // This could be moved somewhere else, and be more "traditionel"
+                svg.append("text")
+                    .attr("x", 20)
+                    .attr("y", 20 + i * 13)
+                    .attr("class", "legend")
+                    .attr("id", "tag-text-" + chartId + "-" + d.key.replace(/[\s,]+/g, ''))
+                    // style the legend
+                    .style("fill", function () { // dynamic colours
+                        return d.color = color(d.key);
+                    })
+                    .style("opacity", 0.9)
+                    // This section makes it interactive.
+                    .on("click", function () {
+                        // Determine if current line is visible
+                        d.active = d.active ? false : true;
+                        var newOpacity = d.active ? 0.9 : 0.5;
+                        // console.log("Status of active for " + d.key + " is " + d.active);
+                        rescale(data);
+                        // console.log("Rescale done");
+                        // Find myself. Then set opacity
+
+                        d3.select("#tag-text-" + chartId + "-" + d.key.replace(/[\s,]+/g, ''))
+                            .style("opacity", newOpacity);
+                    })
+                    .text(d.key);
+            });
+
+            // LOG SCALE TOGGLE
+            buttonData = [{label: "Log scale", x: 10, y:height+35}];
             function buttonEvent(pressed) {
                 if (pressed) {
                     logScale = true;
