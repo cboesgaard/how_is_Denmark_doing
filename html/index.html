@@ -181,6 +181,13 @@ body {
                 c = data[i];
                 var x = {
                     name: c.name,
+                    type: 'spline',
+                    tooltip: {
+                        valueDecimals: 4
+                    },
+                    marker: {
+                        enabled: false
+                    },
                     data: c.data.map(d => d.value)
                 }
                 s.push(x);
