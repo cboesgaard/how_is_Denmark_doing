@@ -8,6 +8,8 @@
 
 Data is aligned to start at the date of firste reported COVID-19 related death in the different countries. For Denmark day=0 was 2020-03-11 (the counting procedure has been changed).
 
+The figures use Denmark as reference and only shows data four days further from where Denmarks is now for the other countries.
+
 ![Daily death counts](figures/how_is_Denmark_doing_daily.png)
 
 ![Cumulative death counts](figures/how_is_Denmark_doing_cumulative.png)
