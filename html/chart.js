@@ -414,7 +414,7 @@ function timeSeriesChart(_chartId) {
 			    .style("font-weight", newWeight)
                             .style("text-decoration", newDecoration);			
                     })
-		    .on("mouseover", function() {
+		    .on("mouseenter", function() {
 			d3.select("#tag-" + chartId + "-" + d.key.replace(/[\s,]+/g, ''))
 			    .transition().duration(100)
 			    .style("stroke-width", "4px");
