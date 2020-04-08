@@ -113,70 +113,15 @@ body {
 
 </script>
 
-<div id="chartdiv3"/>
+<div id="containerDeadPerCapita" style="width:100%; height:500px;"></div>
 
-<script>
-
-    var chart3 = timeSeriesChart(3)
-        .title("Daily deaths")
-        .xAxisTitle("Days since first reported death")
-        .xAxisSubTitle("cbo@dbc.dk & mabd@dbc.dk")
-        .yAxisTitle("Number of deaths a day")
-        .logToggle(false);
-    d3.json(dataFile3, function(error, data) {
-        if (error) throw error;
-        data = chart3.prepareData(data);
-        d3.select("#chartdiv3")
-            .datum(data)
-            .call(chart3);
-    });
-
-</script>
-
-<div id="chartdiv1"/>
-
-<script>
-    var chart1 = timeSeriesChart(1)
-        .title("Cumulative deaths per one million population")
-        .xAxisTitle("Days since one death per one million population reached")
-        .xAxisSubTitle("cbo@dbc.dk & mabd@dbc.dk")
-        .yAxisTitle("Cumulative deaths per one million population");
-    d3.json(dataFile1, function(error, data) {
-        if (error) throw error;
-        data = chart1.prepareData(data);
-        d3.select("#chartdiv1")
-        .datum(data)
-        .call(chart1);
-    });
-
-</script>
-
-<div id="chartdiv2"/>
-
-<script>
-
-    var chart2 = timeSeriesChart(2)
-        .title("Cumulative deaths")
-        .xAxisTitle("Days since first reported death")
-        .xAxisSubTitle("cbo@dbc.dk & mabd@dbc.dk")
-        .yAxisTitle("Cumulative deaths");
-    d3.json(dataFile2, function(error, data) {
-        if (error) throw error;
-        data = chart2.prepareData(data);
-        d3.select("#chartdiv2")
-            .datum(data)
-            .call(chart2);
-    });
-
-</script> 
-
-<div id="container" style="width:100%; height:400px;"></div>
-
+<div id="containerCumulativeDeaths" style="width:100%; height:500px;"></div>
+<div id="containerDailyDeaths" style="width:100%; height:500px;"></div>
 <script>
 
     document.addEventListener('DOMContentLoaded', function () {
         var s = [];
-        $.getJSON(dataFile1, function(data) {         
+        $.getJSON(dataFile1, function(data) {  
             for (i in data) {
                 c = data[i];
                 var x = {
@@ -192,7 +137,7 @@ body {
                 }
                 s.push(x);
             }
-            var myChart = Highcharts.chart('container', {
+            var myChart = Highcharts.chart('containerDeadPerCapita', {
                 chart: {
                     type: 'line'
                 },
@@ -203,6 +148,7 @@ body {
                     title: {
                         text: 'days since one death per one million citizens reached'
                     }
+                    
                 },
                 yAxis: {
                     title: {
@@ -211,6 +157,83 @@ body {
                 },
                 series: s
             });
+        });
+
+        var s2=[]
+        $.getJSON(dataFile2, function(data) {
+            for (i in data) {
+                c = data[i];
+                var x = {
+                    name: c.name,
+                    type: 'spline',
+                    tooltip: {
+                        valueDecimals:0
+                    },
+                    marker: {
+                        enabled: false
+                    },
+                    data: c.data.map(d => d.value)
+                }
+                s2.push(x)
+            }
+            var myChartCumulDeath = Highcharts.chart('containerCumulativeDeaths', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: 'Cumulative deaths'
+                },
+                xAxis: {
+                    title: {
+                        text: 'Days since first reported death'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Cumulative deaths'
+                    }
+                },
+                series: s2
+            })
+        });
+
+        var s3 = [];
+        $.getJSON(dataFile3, function(data) {
+            for (i in data) {
+                c = data[i];
+                var x = {
+                    name: c.name,
+                    type: 'spline',
+                    tooltip: {
+                        valueDecimals: 0
+                    },
+                    marker: {
+                        enabled: false
+                    },
+                    data: c.data.map(d => d.value)
+                }
+                s3.push(x);
+            }
+            var myChartDailyDeath = Highcharts.chart('containerDailyDeaths', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: 'Daily deaths'
+                },
+                xAxis: {
+                    title: {
+                        text: 'Days since first reported death'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Number of deaths per day'
+                    }
+                },
+                series: s3
+
+            })
         });
     });
 </script>
