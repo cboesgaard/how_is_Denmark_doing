@@ -39,8 +39,7 @@
     var urlParams = new URLSearchParams(window.location.search);
     var urlCountryArray = [];
     if (urlParams.has('country')) {
-        var urlCountries = urlParams.get('country');
-        urlCountryArray = urlCountries.split(',').map(function(country) {return country.toLocaleLowerCase();})
+        urlCountryArray = urlParams.get('country').split(',').map(function(country) {return country.toLocaleLowerCase();})
     }
 
     document.addEventListener('DOMContentLoaded', function () {
