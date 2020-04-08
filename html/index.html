@@ -26,7 +26,6 @@
 
 <script>
 
-//    var dataFile1 = "../data/how_is_Denmark_doing_cumulative_pop.json";
     var dataFile1 = "https://raw.githubusercontent.com/cboesgaard/how_is_Denmark_doing/master/data/how_is_Denmark_doing_cumulative_pop.json";
     var dataFile2 = "https://raw.githubusercontent.com/cboesgaard/how_is_Denmark_doing/master/data/how_is_Denmark_doing_cumulative.json";
     var dataFile3 = "https://raw.githubusercontent.com/cboesgaard/how_is_Denmark_doing/master/data/how_is_Denmark_doing_daily.json";
@@ -37,6 +36,10 @@
 <div id="containerCumulativeDeaths" style="width:100%; height:500px;"></div>
 <div id="containerDailyDeaths" style="width:100%; height:500px;"></div>
 <script>
+    var urlParams = new URLSearchParams(window.location.search);
+    var urlCountries = urlParams.get('country');
+    var urlCountryArray = urlCountries.split(',').map(function(country) {return country.toLocaleLowerCase();});
+
 
     document.addEventListener('DOMContentLoaded', function () {
         var s = [];
@@ -54,7 +57,9 @@
                     },
                     data: c.data.map(d => d.value)
                 }
-                s.push(x);
+                if (urlCountryArray.length == 0 || urlCountryArray.indexOf(c.name.toLocaleLowerCase()) > -1) {
+                    s.push(x);
+                }
             }
             var myChart = Highcharts.chart('containerDeadPerCapita', {
                 chart: {
@@ -93,7 +98,9 @@
                     },
                     data: c.data.map(d => d.value)
                 }
-                s2.push(x)
+                if (urlCountryArray.length == 0 || urlCountryArray.indexOf(c.name.toLocaleLowerCase()) > -1) {
+                    s2.push(x);
+                }
             }
             var myChartCumulDeath = Highcharts.chart('containerCumulativeDeaths', {
                 chart: {
@@ -131,7 +138,9 @@
                     },
                     data: c.data.map(d => d.value)
                 }
-                s3.push(x);
+                if (urlCountryArray.length == 0 || urlCountryArray.indexOf(c.name.toLocaleLowerCase()) > -1) {
+                    s3.push(x);
+                }
             }
             var myChartDailyDeath = Highcharts.chart('containerDailyDeaths', {
                 chart: {
