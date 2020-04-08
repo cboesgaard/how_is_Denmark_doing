@@ -7,168 +7,166 @@
 
 
 
-<!-- load the d3.js library -->
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="d3.button.js"></script>
-<script src="chart.js"></script> 
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/series-label.js"></script>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- load the d3.js library -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="d3.button.js"></script>
+    <script src="chart.js"></script> 
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
-<div class="content-wrapper">
+    <div class="content-wrapper">
 
-    <p>The graphs on this page are based on data from a number of <a href="https://github.com/cboesgaard/how_is_Denmark_doing">sources</a>.</p>
+        <p>The graphs on this page are based on data from a number of <a href="https://github.com/cboesgaard/how_is_Denmark_doing">sources</a>.</p>
 
-    <p><b>Instructions:</b>Move mouse over graph (or click) to get
-    data readings. Hoved a label to emphasize the country. Click a
-    label to toggle this country. Click "Log scale" button to toggle
-    log and normal scale on the Y axis.</p>
+        <p><b>Instructions:</b>Move mouse over graph (or click) to get
+        data readings. Hoved a label to emphasize the country. Click a
+        label to toggle this country. Click "Log scale" button to toggle
+        log and normal scale on the Y axis.</p>
 
-<script>
+        <script>
 
-    var dataFile1 = "https://raw.githubusercontent.com/cboesgaard/how_is_Denmark_doing/master/data/how_is_Denmark_doing_cumulative_pop.json";
-    var dataFile2 = "https://raw.githubusercontent.com/cboesgaard/how_is_Denmark_doing/master/data/how_is_Denmark_doing_cumulative.json";
-    var dataFile3 = "https://raw.githubusercontent.com/cboesgaard/how_is_Denmark_doing/master/data/how_is_Denmark_doing_daily.json";
+            var dataFile1 = "https://raw.githubusercontent.com/cboesgaard/how_is_Denmark_doing/master/data/how_is_Denmark_doing_cumulative_pop.json";
+            var dataFile2 = "https://raw.githubusercontent.com/cboesgaard/how_is_Denmark_doing/master/data/how_is_Denmark_doing_cumulative.json";
+            var dataFile3 = "https://raw.githubusercontent.com/cboesgaard/how_is_Denmark_doing/master/data/how_is_Denmark_doing_daily.json";
 
-</script>
+        </script>
 
-<div id="containerDeadPerCapita" style="width:100%; height:500px;"></div>
-<div id="containerCumulativeDeaths" style="width:100%; height:500px;"></div>
-<div id="containerDailyDeaths" style="width:100%; height:500px;"></div>
-<script>
-    var urlParams = new URLSearchParams(window.location.search);
-    var urlCountryArray = [];
-    if (urlParams.has('country')) {
-        urlCountryArray = urlParams.get('country').split(',').map(function(country) {return country.toLocaleLowerCase();})
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        var s = [];
-        $.getJSON(dataFile1, function(data) {  
-            for (i in data) {
-                c = data[i];
-                var x = {
-                    name: c.name,
-                    type: 'spline',
-                    tooltip: {
-                        valueDecimals: 4
-                    },
-                    marker: {
-                        enabled: false
-                    },
-                    data: c.data.map(d => d.value)
-                }
-                if (urlCountryArray.length == 0 || urlCountryArray.indexOf(c.name.toLocaleLowerCase()) > -1) {
-                    s.push(x);
-                }
+        <div id="containerDeadPerCapita" style="width:100%; height:500px;"></div>
+        <div id="containerCumulativeDeaths" style="width:100%; height:500px;"></div>
+        <div id="containerDailyDeaths" style="width:100%; height:500px;"></div>
+        <script>
+            var urlParams = new URLSearchParams(window.location.search);
+            var urlCountryArray = [];
+            if (urlParams.has('country')) {
+                urlCountryArray = urlParams.get('country').split(',').map(function(country) {return country.toLocaleLowerCase();})
             }
-            var myChart = Highcharts.chart('containerDeadPerCapita', {
-                chart: {
-                    type: 'line'
-                },
-                title: {
-                    text: 'Cumulative deaths per one million population'
-                },
-                xAxis: {
-                    title: {
-                        text: 'days since one death per one million citizens reached'
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var s = [];
+                $.getJSON(dataFile1, function(data) {  
+                    for (i in data) {
+                        c = data[i];
+                        var x = {
+                            name: c.name,
+                            type: 'spline',
+                            tooltip: {
+                                valueDecimals: 4
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            data: c.data.map(d => d.value)
+                        }
+                        if (urlCountryArray.length == 0 || urlCountryArray.indexOf(c.name.toLocaleLowerCase()) > -1) {
+                            s.push(x);
+                        }
                     }
-                    
-                },
-                yAxis: {
-                    title: {
-                        text: 'Cumulative death per one million citizens'
+                    var myChart = Highcharts.chart('containerDeadPerCapita', {
+                        chart: {
+                            type: 'line'
+                        },
+                        title: {
+                            text: 'Cumulative deaths per one million population'
+                        },
+                        xAxis: {
+                            title: {
+                                text: 'days since one death per one million population reached'
+                            }
+                            
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Cumulative death per one million population'
+                            }
+                        },
+                        series: s
+                    });
+                });
+
+                var s2=[]
+                $.getJSON(dataFile2, function(data) {
+                    for (i in data) {
+                        c = data[i];
+                        var x = {
+                            name: c.name,
+                            type: 'spline',
+                            tooltip: {
+                                valueDecimals:0
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            data: c.data.map(d => d.value)
+                        }
+                        if (urlCountryArray.length == 0 || urlCountryArray.indexOf(c.name.toLocaleLowerCase()) > -1) {
+                            s2.push(x);
+                        }
                     }
-                },
-                series: s
+                    var myChartCumulDeath = Highcharts.chart('containerCumulativeDeaths', {
+                        chart: {
+                            type: 'line'
+                        },
+                        title: {
+                            text: 'Cumulative deaths'
+                        },
+                        xAxis: {
+                            title: {
+                                text: 'Days since first reported death'
+                            }
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Cumulative deaths'
+                            }
+                        },
+                        series: s2
+                    })
+                });
+
+                var s3 = [];
+                $.getJSON(dataFile3, function(data) {
+                    for (i in data) {
+                        c = data[i];
+                        var x = {
+                            name: c.name,
+                            type: 'spline',
+                            tooltip: {
+                                valueDecimals: 0
+                            },
+                            marker: {
+                                enabled: false
+                            },
+                            data: c.data.map(d => d.value)
+                        }
+                        if (urlCountryArray.length == 0 || urlCountryArray.indexOf(c.name.toLocaleLowerCase()) > -1) {
+                            s3.push(x);
+                        }
+                    }
+                    var myChartDailyDeath = Highcharts.chart('containerDailyDeaths', {
+                        chart: {
+                            type: 'line'
+                        },
+                        title: {
+                            text: 'Daily deaths'
+                        },
+                        xAxis: {
+                            title: {
+                                text: 'Days since first reported death'
+                            }
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Number of deaths per day'
+                            }
+                        },
+                        series: s3
+
+                    })
+                });
             });
-        });
+        </script>
 
-        var s2=[]
-        $.getJSON(dataFile2, function(data) {
-            for (i in data) {
-                c = data[i];
-                var x = {
-                    name: c.name,
-                    type: 'spline',
-                    tooltip: {
-                        valueDecimals:0
-                    },
-                    marker: {
-                        enabled: false
-                    },
-                    data: c.data.map(d => d.value)
-                }
-                if (urlCountryArray.length == 0 || urlCountryArray.indexOf(c.name.toLocaleLowerCase()) > -1) {
-                    s2.push(x);
-                }
-            }
-            var myChartCumulDeath = Highcharts.chart('containerCumulativeDeaths', {
-                chart: {
-                    type: 'line'
-                },
-                title: {
-                    text: 'Cumulative deaths'
-                },
-                xAxis: {
-                    title: {
-                        text: 'Days since first reported death'
-                    }
-                },
-                yAxis: {
-                    title: {
-                        text: 'Cumulative deaths'
-                    }
-                },
-                series: s2
-            })
-        });
-
-        var s3 = [];
-        $.getJSON(dataFile3, function(data) {
-            for (i in data) {
-                c = data[i];
-                var x = {
-                    name: c.name,
-                    type: 'spline',
-                    tooltip: {
-                        valueDecimals: 0
-                    },
-                    marker: {
-                        enabled: false
-                    },
-                    data: c.data.map(d => d.value)
-                }
-                if (urlCountryArray.length == 0 || urlCountryArray.indexOf(c.name.toLocaleLowerCase()) > -1) {
-                    s3.push(x);
-                }
-            }
-            var myChartDailyDeath = Highcharts.chart('containerDailyDeaths', {
-                chart: {
-                    type: 'line'
-                },
-                title: {
-                    text: 'Daily deaths'
-                },
-                xAxis: {
-                    title: {
-                        text: 'Days since first reported death'
-                    }
-                },
-                yAxis: {
-                    title: {
-                        text: 'Number of deaths per day'
-                    }
-                },
-                series: s3
-
-            })
-        });
-    });
-</script>
-
-
-</div>
-
+    </div>
 
 </body>
