@@ -87,7 +87,7 @@ function timeSeriesChart(_chartId) {
         set_domain(maxDate + 1, Math.round(maxValue * 1.05));
     }
 
-    // Called whenever the user clicks a labelor toggle an axis.
+    // Called whenever the user clicks a label or toggle an axis.
     // Rescales the domain (axis) and repaints the lines.
     function rescale(data) {
         console.log("rescale");
@@ -212,6 +212,7 @@ function timeSeriesChart(_chartId) {
                     .style("stroke", function () { // Add the colours dynamically
                         return d.color = color(d.key);
                     })
+		    .style("stroke-width", "2px")
                     .attr("id", "tag-" + chartId + "-" + d.key.replace(/[\s,]+/g, ''))
                     .attr("d", valueline(d.values));
 
@@ -396,6 +397,7 @@ function timeSeriesChart(_chartId) {
                     .style("opacity", 1.0)
                     // This section makes it interactive.
                     .on("click", function () {
+			// alert("click");
                         // Determine if current line is visible
                         d.active = d.active ? false : true;
                         var newOpacity = d.active ? 1.0 : 0.9;
@@ -412,6 +414,18 @@ function timeSeriesChart(_chartId) {
 			    .style("font-weight", newWeight)
                             .style("text-decoration", newDecoration);			
                     })
+		    .on("mouseenter", function() {
+			d3.select("#tag-" + chartId + "-" + d.key.replace(/[\s,]+/g, ''))
+			    .transition().duration(100)
+			    .style("stroke-width", "4px");
+//			    .style("stroke-dasharray", "10,1");
+		    })
+		    .on("mouseleave", function() {
+			d3.select("#tag-" + chartId + "-" + d.key.replace(/[\s,]+/g, ''))
+			    .transition().duration(50)
+			    .style("stroke-width", "2px");
+//			    .style("stroke-dasharray", "");
+		    })
                     .text(d.key);
             });
 
