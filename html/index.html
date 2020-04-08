@@ -37,9 +37,11 @@
 <div id="containerDailyDeaths" style="width:100%; height:500px;"></div>
 <script>
     var urlParams = new URLSearchParams(window.location.search);
-    var urlCountries = urlParams.get('country');
-    var urlCountryArray = urlCountries.split(',').map(function(country) {return country.toLocaleLowerCase();});
-
+    var urlCountryArray = [];
+    if (urlParams.has('country')) {
+        var urlCountries = urlParams.get('country');
+        urlCountryArray = urlCountries.split(',').map(function(country) {return country.toLocaleLowerCase();})
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
         var s = [];
