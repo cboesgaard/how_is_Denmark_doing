@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 s.push(x);
             }
         }
-        var myChart = Highcharts.chart('containerDeadPerCapita', {
+        Highcharts.chart('containerDeadPerCapita', {
             chart: {
                 type: 'line'
             },
@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 title: {
                     text: 'days since one death per one million population reached'
                 }
-                
             },
             yAxis: {
                 title: {
@@ -65,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 s2.push(x);
             }
         }
-        var myChartCumulDeath = Highcharts.chart('containerCumulativeDeaths', {
+        Highcharts.chart('containerCumulativeDeaths', {
             chart: {
                 type: 'line'
             },
@@ -105,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 s3.push(x);
             }
         }
-        var myChartDailyDeath = Highcharts.chart('containerDailyDeaths', {
+        Highcharts.chart('containerDailyDeaths', {
             chart: {
                 type: 'line'
             },
@@ -123,7 +122,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             },
             series: s3
-
         })
     });
 });
