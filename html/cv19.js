@@ -3,28 +3,43 @@ var urlCountryArray = [];
 if (urlParams.has('country')) {
     urlCountryArray = urlParams.get('country').split(',').map(function(country) {return country.toLocaleLowerCase();})
 }
+var docTitle = document.title;
+var logScales = false;
+var chart1, chart2, chart3;
+var optionsLinearScales = {
+    yAxis: {
+        type: "linear"
+    }
+};
+var optionsLogScales = {
+    yAxis: {
+        type: "logarithmic"
+    }
+};
 
 document.addEventListener('DOMContentLoaded', function () {
     var s = [];
+    var titleCountries = [];
     $.getJSON(dataFile1, function(data) {  
         for (i in data) {
             c = data[i];
-            var x = {
-                name: c.name,
-                type: 'spline',
-                tooltip: {
-                    valueDecimals: 4
-                },
-                marker: {
-                    enabled: false
-                },
-                data: c.data.map(d => d.value)
-            }
             if (urlCountryArray.length == 0 || urlCountryArray.indexOf(c.name.toLocaleLowerCase()) > -1) {
+                var x = {
+                    name: c.name,
+                    type: 'spline',
+                    tooltip: {
+                        valueDecimals: 4
+                    },
+                    marker: {
+                        enabled: false
+                    },
+                    data: c.data.map(d => d.value)
+                }
                 s.push(x);
+                titleCountries.push(c.name);
             }
         }
-        Highcharts.chart('containerDeadPerCapita', {
+        chart1 = Highcharts.chart('containerDeadPerCapita', {
             chart: {
                 type: 'line'
             },
@@ -43,6 +58,9 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             series: s
         });
+        if (urlParams.has('country')) {
+            document.title = titleCountries.join(",") + ": " + docTitle;
+        }
     });
 
     var s2=[]
@@ -64,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 s2.push(x);
             }
         }
-        Highcharts.chart('containerCumulativeDeaths', {
+        chart2 = Highcharts.chart('containerCumulativeDeaths', {
             chart: {
                 type: 'line'
             },
@@ -104,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 s3.push(x);
             }
         }
-        Highcharts.chart('containerDailyDeaths', {
+        chart3 = Highcharts.chart('containerDailyDeaths', {
             chart: {
                 type: 'line'
             },
@@ -124,4 +142,19 @@ document.addEventListener('DOMContentLoaded', function () {
             series: s3
         })
     });
+});
+
+$("#logButton").click(function() {
+    if (logScales) {
+        logScales = false;
+        chart1.update(optionsLinearScales);
+        chart2.update(optionsLinearScales);
+        chart3.update(optionsLinearScales);
+    }
+    else {
+        logScales = true;
+        chart1.update(optionsLogScales);
+        chart2.update(optionsLogScales);
+        chart3.update(optionsLogScales);
+    }
 });
