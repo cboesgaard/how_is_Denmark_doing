@@ -1,6 +1,6 @@
-# d3.js based graph
+# HighCharts
 
-This directory contains an example of a d3.js based graph.
+This directory contains examples of charts implemented in [HighCharts](https://www.highcharts.com/).
 
 To test, run docker like this, *in the top directory*:
 
