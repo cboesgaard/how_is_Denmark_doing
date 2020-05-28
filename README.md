@@ -1,9 +1,5 @@
 # How is Denmark doing?
 
-## Hospitals
-
-![Hospital counts](figures/how_is_Denmark_doing_hospital.png)
-
 ## Death compared
 
 Data is aligned to start at the date of firste reported COVID-19 related death in the different countries. For Denmark day=0 was 2020-03-11 (the counting procedure has been changed).
@@ -18,11 +14,9 @@ Data is aligned to start at the date of firste reported COVID-19 related death i
 
 ## Data
 
-Danish data is from Statens Serum Institut (SSI): https://www.ssi.dk/aktuelt/sygdomsudbrud/coronavirus/covid-19-i-danmark-epidemiologisk-overvaagningsrapport
+Update: high quality Danish date is no longer available from Statens Serum Institut. Danish data is now from Johns Hopkins (US data is now also from Johns Hopkins). This also means the figure with data on hospitalization and ICU has been removed.
 
 New York data is from The New York Times: https://github.com/nytimes/covid-19-data [(U. S. tracking page)](https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html)
-
-Other US data is from Worldometer: https://www.worldometers.info/coronavirus/country/us/
 
 Other covid-19 data is from Johns Hopkins University: https://github.com/CSSEGISandData/COVID-19
 
