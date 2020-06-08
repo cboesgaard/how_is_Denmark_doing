@@ -1,6 +1,14 @@
 # How is Denmark doing?
 
-## Daily confirmed cases
+## Denmark
+
+![Active cases](figures/Active.png.png)
+
+![Daily confirmed cases](figures/Daily_confirmed.png)
+
+![Daily deaths](figures/Daily_death.png)
+
+## Confirmed cases compared
 
 ![Daily confirmed cases](figures/how_is_Denmark_doing_cases.png)
 
