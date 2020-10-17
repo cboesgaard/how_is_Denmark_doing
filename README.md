@@ -10,7 +10,7 @@
 
 ## Confirmed cases compared
 
-![Daily confirmed cases](figures/how_is_Denmark_doing_cases.png)
+![Daily confirmed cases per million (7 days moving average)](figures/Daily_confirmed_ma_per_million.png)
 
 ## Data
 
