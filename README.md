@@ -2,8 +2,6 @@
 
 ## Denmark
 
-![Active cases](figures/Active.png)
-
 ![Daily confirmed cases](figures/Daily_confirmed.png)
 
 ![Daily deaths](figures/Daily_death.png)
